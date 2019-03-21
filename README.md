@@ -24,3 +24,12 @@ nc localhost <port> VERB | key:value| key:value | .
 
 ## Milestone 5
 - Deploy to cloud
+
+
+### Resources:
+Databases
+Graph
+https://github.com/cosh/fallen-8
+
+KeyVal
+https://github.com/hhblaze/DBreeze
