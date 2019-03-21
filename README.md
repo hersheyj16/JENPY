@@ -1,7 +1,7 @@
 # JENPY
 JENPY experimental networking protocol YAY
 
-#Grammar
+# Grammar
 ```
 nc localhost <port> VERB | key:value| key:value | .
 
@@ -9,8 +9,8 @@ nc localhost <port> VERB | key:value| key:value | .
 | line separators
 ```
 
-#Milestoes
-## Milestone 1
+# Milestoes
+## Milestone 1 [WIP]
 - Set up async server to serve one basic key value word
 
 ## Milestone 2
