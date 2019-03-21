@@ -33,3 +33,6 @@ https://github.com/cosh/fallen-8
 
 KeyVal
 https://github.com/hhblaze/DBreeze
+
+Microsoft Networking:
+https://docs.microsoft.com/en-us/dotnet/framework/network-programming/asynchronous-server-socket-example
