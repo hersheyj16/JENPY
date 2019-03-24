@@ -8,4 +8,7 @@
   <ItemGroup>
     <Folder Include="Request\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="handleClient.cs" />
+  </ItemGroup>
 </Project>
