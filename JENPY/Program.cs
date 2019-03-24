@@ -45,15 +45,15 @@ namespace JENPY
                 listener.Listen(100);
 
                 while (true) {
-                    allDone.Reset(); // TODO, learn MRE
+                    allDone.Reset(); // TODO, learn MORE
 
-                    Console.WriteLine("waiting for a connection on: " + ipAddress + "port " + Port);
+                    Console.WriteLine("waiting for a connection on: " + ipAddress + " port " + Port);
                     listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
                     allDone.WaitOne();
                 }
             }
             catch(Exception e) {
-                Console.WriteLine("oh e" + e.StackTrace);
+                Console.WriteLine("oh e happened eh" + e.StackTrace);
             }
 
             Console.WriteLine("press ENTER to continue");
@@ -71,7 +71,6 @@ namespace JENPY
 
             StateObject state = new StateObject();
             state.workSocket = handler;
-
 
             handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state); 
 
@@ -110,10 +109,23 @@ namespace JENPY
                 else
                 {
                     // Not all data received. Get more.  
-                    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                    new AsyncCallback(ReadCallback), state);
+                    //handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                    new AsyncCallback(JenpyReaderCallBack), state);
                 }
             }
+        }
+
+        private static void JenpyReaderCallBack(IAsyncResult ar) {
+            string content = "hi world, make Jenpy response";
+
+
+            // Retrieve the state object and the handler socket  
+            // from the asynchronous state object.  
+            StateObject state = (StateObject)ar.AsyncState;
+            Socket handler = state.workSocket;
+
+            Send(handler, content);
+
         }
 
         private static void Send(Socket handler, string data)
