@@ -10,5 +10,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="handleClient.cs" />
+    <Compile Remove="Request\JenpyRequest.cs" />
   </ItemGroup>
 </Project>

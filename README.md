@@ -36,3 +36,6 @@ https://github.com/hhblaze/DBreeze
 
 Microsoft Networking:
 https://docs.microsoft.com/en-us/dotnet/framework/network-programming/asynchronous-server-socket-example
+
+### Sources:
+http://www.mikeadev.net/2012/07/multi-threaded-tcp-server-in-csharp/
