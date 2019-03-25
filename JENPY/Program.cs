@@ -13,7 +13,10 @@ namespace JENPY
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Multi-Threaded TCP Server Demo");
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+
+            Console.WriteLine("Launching Multi-Threaded TCP JENPY Server {0}", ipAddress);
             TcpServer server = new TcpServer(port);
         }
     }

@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using JENPY.Exceptions;
 
 namespace JENPY
 {
@@ -61,22 +62,29 @@ namespace JENPY
                     // reads from stream
                     handleResponse(sReader, sWriter);
 
-                    Console.WriteLine("received from handle response");
                     // to write something back.
                     sWriter.WriteLine("MOCK Response Meaningfull things here");
                     sWriter.Flush();
                 }
             }
+            catch (JenpyMalformException e)
+            {
+                sWriter.WriteLine("An JENPY malformed exception occured {0}", e.Message);
+            }
             catch (Exception e)
             {
-
-                Console.WriteLine("caught exception");
+                Console.WriteLine("caught exception at the server");
                 Console.WriteLine(e.StackTrace);
             }
-  
+            finally
+            {
+                //sWriter.Close();
+                //sReader.Close();
+            }
+
         }
 
-  
+
 
         private void handleResponse(StreamReader sReader, StreamWriter sWriter)
         {
@@ -88,14 +96,11 @@ namespace JENPY
             if (sData == "EXIT .")
             {
                 sWriter.Write("Exiting\n");
-                sWriter.Flush();
-                sWriter.Close();
-                sReader.Close();
                 return;
             }
 
             // shows content on the console.
-            Console.WriteLine("Client &gt; " + sData);
+            Console.WriteLine("Client > " + sData);
         }
     }
 
