@@ -1,8 +1,8 @@
 ﻿using System;
 namespace JENPY.Request
 {
-    public interface RequestHandler
+public interface RequestHandler
     {
-        JenpyObject Handle(string verb);
+        JenpyObject Handle(JenpyObject req);
     }
 }

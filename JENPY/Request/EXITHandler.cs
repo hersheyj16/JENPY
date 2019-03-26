@@ -1,15 +1,15 @@
 ﻿using System;
+using JENPY.Utils;
+
 namespace JENPY.Request
 {
     public class EXITHandler : RequestHandler
     {
-        public EXITHandler()
+        public JenpyObject Handle(JenpyObject req)
         {
-        }
-
-        public JenpyObject Handle(string verb)
-        {
-            throw new NotImplementedException();
+            //TODO write a builder
+            JenpyObject response = new JenpyObject(JenpyConstants.OK, null);
+            return response;
         }
     }
 }

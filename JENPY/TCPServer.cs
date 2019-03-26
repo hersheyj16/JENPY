@@ -6,6 +6,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using JENPY.Exceptions;
+using JENPY.Request;
+using JENPY.Utils;
 
 namespace JENPY
 {
@@ -81,45 +83,20 @@ namespace JENPY
         {
             try
             {
-                handleResponse(sReader, sWriter);
+                JenpyServerRequestHandler.handleRequest(sReader, sWriter);
             }
             catch (JenpyMalformException e)
             {
                 sWriter.WriteLine("An JENPY malformed exception occured {0}", e.Message);
                 sWriter.Flush();
             }
-            catch (ObjectDisposedException e)
-            {
-                Console.WriteLine("An client's stream closed with exception message {0}, effectively closing resources", e.Message);
-                sWriter.Close();
-                sReader.Close();
-            }
+            //catch (ObjectDisposedException e)
+            //{
+            //    Console.WriteLine("An client's stream closed with exception message {0}, effectively closing resources", e.Message);
+       
+            //}
         }
 
-        private void handleResponse(StreamReader sReader, StreamWriter sWriter)
-        {
-
-            String sData = sReader.ReadLine();
-            JenpyObject req = JenpyObjectParser.toJenpy(sData);
-
-            if (req.Verb == "EXIT")
-            {
-                sWriter.Write("Exiting\n");
-                sWriter.Close();
-                sReader.Close();
-                return;
-            }
-            // shows content on the console.
-            Console.WriteLine("Client > " + sData);
-
-            foreach (KeyValuePair<string, string> entry in req.ObjectData)
-            {
-                Console.WriteLine("key {0}, val {1}", entry.Key, entry.Value);
-            }
-
-            sWriter.WriteLine("MOCK Response Meaningfull things here");
-            sWriter.Flush();
-        }
     }
 
 }

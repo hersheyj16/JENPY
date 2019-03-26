@@ -7,5 +7,10 @@ namespace JENPY.Request
         {
             throw new NotImplementedException();
         }
+
+        public JenpyObject Handle(JenpyObject req)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
