@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace JENPY
 {
-    public class JenpyObject
+public class JenpyObject
     {
         public string Verb { get; set; }
         public IDictionary<string, string> ObjectData { get; set; }
@@ -13,6 +13,10 @@ namespace JENPY
         {
             this.Verb = verb;
             this.ObjectData = data;
+        }
+
+        public JenpyObject()
+        {
         }
     }
 }

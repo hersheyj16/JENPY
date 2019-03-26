@@ -70,7 +70,7 @@ namespace JENPY
 
             string bar = " | ";
             sb.Remove(sb.Length - bar.Length, bar.Length);
-            sb.Append(".");
+            sb.Append(" .");
             return sb.ToString();
         }
 
