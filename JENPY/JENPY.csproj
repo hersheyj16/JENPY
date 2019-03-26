@@ -12,5 +12,6 @@
   <ItemGroup>
     <Compile Remove="handleClient.cs" />
     <Compile Remove="Request\JenpyRequest.cs" />
+    <Compile Remove="Exceptions\EmptyClass.cs" />
   </ItemGroup>
 </Project>

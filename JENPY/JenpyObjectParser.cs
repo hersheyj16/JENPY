@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
+using JENPY.Exceptions;
 
 namespace JENPY
 {
@@ -11,6 +8,8 @@ namespace JENPY
     public class JenpyObjectParser
     {
         private const int VerbLength = 4;
+        private const char TokenDelimiter = '|';
+        private const char WithinTokenDelimiter = ':';
 
         public static JenpyObject toJenpy(String input)
         {
@@ -44,18 +43,50 @@ namespace JENPY
             }
             catch (Exception e)
             {
+                Console.WriteLine("exception occured while parsing {0}", e.Message);
                 Console.WriteLine(e.StackTrace);
-                throw new Exceptions.JenpyMalformException(e.Message);
+                throw new JenpyMalformException(e.Message);
             }
         }
 
         private static IDictionary<string, string> parseBodyData(string body)
         {
-            IDictionary<string, string> data = new Dictionary<string, string>();
+            IDictionary<string, string> data;
 
 
             int DelimiterIndex = body.IndexOf('|');
-            Console.WriteLine("Delimiter start at {0}", DelimiterIndex);
+            if (DelimiterIndex >= 0)
+            {
+                var tokens = body.Split(TokenDelimiter);
+                data = getKeyValues(tokens);
+            }
+            else
+            {
+                data = new Dictionary<string, string>();
+            }
+            return data;
+
+        }
+
+        private static IDictionary<string, string> getKeyValues(string[] tokens)
+        {
+            IDictionary<string, string> data = new Dictionary<string, string>();
+            foreach (string token in tokens)
+            {
+                var trimmed = token.Trim();
+                if (!String.IsNullOrEmpty(trimmed))
+                {
+                    var KeyVal = trimmed.Split(WithinTokenDelimiter);
+                    if (KeyVal.Length > 1)
+                    {
+                        data.Add(KeyVal[0], KeyVal[1]);
+                    }
+                    else
+                    {
+                        data.Add(KeyVal[0], "");
+                    }
+                }
+            }
             return data;
 
         }

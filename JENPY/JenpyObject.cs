@@ -7,12 +7,12 @@ namespace JENPY
     public class JenpyObject
     {
         public string Verb { get; set; }
-        IDictionary<string, string> ResponseData { get; set; }
+        public IDictionary<string, string> ObjectData { get; set; }
 
         public JenpyObject(string verb, IDictionary<string, string> data)
         {
             this.Verb = verb;
-            this.ResponseData = data;
+            this.ObjectData = data;
         }
     }
 }
