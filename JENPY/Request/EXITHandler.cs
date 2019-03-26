@@ -8,7 +8,7 @@ namespace JENPY.Request
         public JenpyObject Handle(JenpyObject req)
         {
             //TODO write a builder
-            JenpyObject response = new JenpyObject(JenpyConstants.OK, null);
+            JenpyObject response = new JenpyObject(JenpyConstants.TERM, null);
             return response;
         }
     }

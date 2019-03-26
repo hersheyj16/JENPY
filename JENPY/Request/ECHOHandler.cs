@@ -1,16 +1,15 @@
 ﻿using System;
+using JENPY.Utils;
+
 namespace JENPY.Request
 {
     public class ECHOHandler : RequestHandler
     {
-        public JenpyObject Handle(string verb)
-        {
-            throw new NotImplementedException();
-        }
 
         public JenpyObject Handle(JenpyObject req)
         {
-            throw new NotImplementedException();
+            req.Verb = JenpyConstants.OK;
+            return req;
         }
     }
 }

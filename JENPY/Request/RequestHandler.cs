@@ -3,6 +3,6 @@ namespace JENPY.Request
 {
 public interface RequestHandler
     {
-        JenpyObject Handle(JenpyObject req);
+    JenpyObject Handle(JenpyObject req);
     }
 }

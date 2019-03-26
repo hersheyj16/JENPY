@@ -15,6 +15,7 @@ namespace JENPY
     {
         private TcpListener _server;
         private Boolean _isRunning;
+        private static JenpyServerRequestHandler handler = new JenpyServerRequestHandler();
 
         public TcpServer(int port)
         {
@@ -83,7 +84,7 @@ namespace JENPY
         {
             try
             {
-                JenpyServerRequestHandler.handleRequest(sReader, sWriter);
+                handler.handleRequest(sReader, sWriter);
             }
             catch (JenpyMalformException e)
             {
@@ -93,7 +94,7 @@ namespace JENPY
             //catch (ObjectDisposedException e)
             //{
             //    Console.WriteLine("An client's stream closed with exception message {0}, effectively closing resources", e.Message);
-       
+
             //}
         }
 
