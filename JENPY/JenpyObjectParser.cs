@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using JENPY.Exceptions;
 
 namespace JENPY
@@ -16,7 +17,6 @@ namespace JENPY
             try
             {
                 Console.WriteLine("Received " + input);
-
 
                 //First look for the period.
                 int EndIndex = input.IndexOf('.');
@@ -47,6 +47,31 @@ namespace JENPY
                 Console.WriteLine(e.StackTrace);
                 throw new JenpyMalformException(e.Message);
             }
+        }
+
+        internal static string SerializeToString(JenpyObject res)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(res.Verb);
+
+            sb.Append(" | ");
+
+            // Key Value pairs
+
+            foreach (KeyValuePair<string, string> entry in res.ObjectData)
+            {
+                sb.Append(entry.Key);
+                sb.Append(":");
+                sb.Append(entry.Value);
+                sb.Append(" | ");
+            }
+
+            //remove the last |
+
+            string bar = " | ";
+            sb.Remove(sb.Length - bar.Length, bar.Length);
+            sb.Append(".");
+            return sb.ToString();
         }
 
         private static IDictionary<string, string> parseBodyData(string body)

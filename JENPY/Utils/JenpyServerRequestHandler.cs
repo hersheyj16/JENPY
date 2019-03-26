@@ -18,8 +18,6 @@ namespace JENPY.Utils
             handlers.Add("PUTV", new PUTVHandler());
         }
 
-
-
         public void handleRequest(StreamReader sReader, StreamWriter sWriter)
         {
 
@@ -45,7 +43,10 @@ namespace JENPY.Utils
                 Console.WriteLine("key {0}, val {1}", entry.Key, entry.Value);
             }
 
-            sWriter.WriteLine("MOCK Response Meaningfull things here");
+            String JenpyData = "MOCK Response Meaningfull things here";
+            JenpyData = JenpyObjectParser.SerializeToString(res);
+
+            sWriter.WriteLine(JenpyData);
             sWriter.Flush();
         }
 
