@@ -10,20 +10,33 @@ nc localhost <port> VERB | key:value| key:value | .
 ```
 
 # Milestoes
-## Milestone 1 [WIP]
+## Milestone 1 [DONE]
 - Set up async server to serve one basic key value word
 
-## Milestone 2
+## Milestone 2 [DONE]
 - Implement ECHO verb
 
-## Milestone 3
+## Milestone 3 [DONE]
 - Implement GET
 
-## Milestone 4
+## Milestone 4 [DONE]
 - Implement PUT
 
-## Milestone 5
+## Milestone 5 [MEH]
 - Deploy to cloud
+
+## Milestone 6 []
+BACKUP
+- Create a background worker that periodically backs up in memory key values to disc
+
+## Milestone 7 []
+- Create a RSTR verb to restore from the disk
+
+## Milestone 8
+- Implement LRU for in memory cache of key value stores
+
+
+
 
 
 ### Resources:
