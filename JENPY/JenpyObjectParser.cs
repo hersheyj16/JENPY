@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -9,7 +10,7 @@ namespace JENPY
 
     public class JenpyObjectParser
     {
-
+        private const int VerbLength = 4;
 
         public static JenpyObject toJenpy(String input)
         {
@@ -27,11 +28,12 @@ namespace JENPY
                 }
 
                 //Assume all verbs are 4 letters.
-                string verb = input.Substring(0, 4);
+                string verb = input.Substring(0, VerbLength);
 
                 //TODO see if we can add a logging library
                 Console.WriteLine("Debug - Received verb {0}", verb);
-                string body = input.Substring(5, EndIndex);
+                int BodyEnd = EndIndex - VerbLength - 1;
+                string body = input.Substring(5, BodyEnd);
 
                 Console.WriteLine("Debug - Received body {0}", body);
 
@@ -39,7 +41,9 @@ namespace JENPY
                 IDictionary<string, string> data = parseBodyData(body);
                 return new JenpyObject(verb, data);
 
-            }catch(Exception e) {
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine(e.StackTrace);
                 throw new Exceptions.JenpyMalformException(e.Message);
             }
@@ -48,6 +52,7 @@ namespace JENPY
         private static IDictionary<string, string> parseBodyData(string body)
         {
             IDictionary<string, string> data = new Dictionary<string, string>();
+
 
             int DelimiterIndex = body.IndexOf('|');
             Console.WriteLine("Delimiter start at {0}", DelimiterIndex);

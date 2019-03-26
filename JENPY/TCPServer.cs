@@ -61,19 +61,21 @@ namespace JENPY
                 {
                     // reads from stream
                     handleResponse(sReader, sWriter);
-
-                    // to write something back.
-                    sWriter.WriteLine("MOCK Response Meaningfull things here");
-                    sWriter.Flush();
                 }
             }
             catch (JenpyMalformException e)
             {
                 sWriter.WriteLine("An JENPY malformed exception occured {0}", e.Message);
             }
+            catch(ObjectDisposedException e)
+            {
+                Console.WriteLine("An client's stream closed with exception message {0}, effectively closing resources", e.Message);
+                sWriter.Close();
+                sReader.Close();
+            }
             catch (Exception e)
             {
-                Console.WriteLine("caught exception at the server");
+                Console.WriteLine("caught exception at the server{0}", e.GetBaseException());
                 Console.WriteLine(e.StackTrace);
             }
             finally
@@ -93,14 +95,17 @@ namespace JENPY
 
             JenpyObject req = JenpyObjectParser.toJenpy(sData);
 
-            if (sData == "EXIT .")
-            {
+            if (req.Verb == "EXIT") {
                 sWriter.Write("Exiting\n");
+                sWriter.Close();
+                sReader.Close();
                 return;
             }
-
             // shows content on the console.
             Console.WriteLine("Client > " + sData);
+            // to write something back.
+            sWriter.WriteLine("MOCK Response Meaningfull things here");
+            sWriter.Flush();
         }
     }
 
