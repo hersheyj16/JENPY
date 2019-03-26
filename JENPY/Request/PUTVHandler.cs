@@ -18,8 +18,11 @@ namespace JENPY.Request
                 {
                     value = JenpyConstants.FAIL;
                 }
-                else {
+                else
+                {
                     DataStore.DataValues.Add(entry.Key, entry.Value);
+                    //TODO... design this better as background task maybe on the dataStore that periodically goes around and make backups on disk
+                    writeToDisk(entry);
                 }
                 data.Add(entry.Key, value);
             }
@@ -29,6 +32,16 @@ namespace JENPY.Request
                 .WithObjectData(data)
                 .Build();
             return resp;
+        }
+
+        private void writeToDisk(KeyValuePair<string, string> entry)
+        {
+            string FileName = "/Users/jenny/Projects/JENPY/JENPY/Storage/mockDisk";
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(FileName, true))
+            {
+                String s = String.Format("{0}, {1}", entry.Key, entry.Value);
+                file.WriteLine(s);
+            }
         }
     }
 }

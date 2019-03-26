@@ -13,8 +13,12 @@ namespace JENPY.Request
 
        
             foreach (KeyValuePair<string,string> entry in req.ObjectData){
-                var ans = DataStore.DataValues[entry.Key];
-                data.Add(entry.Key, ans);
+                String keyString = entry.Key;
+                String valString = JenpyConstants.FAIL;
+                if (DataStore.DataValues.ContainsKey(keyString)){
+                    valString = DataStore.DataValues[entry.Key];
+                }
+                data.Add(entry.Key, valString);
             }
 
             JenpyObject resp = new JenpyObjectBuilder()
