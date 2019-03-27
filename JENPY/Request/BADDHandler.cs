@@ -1,7 +1,7 @@
 ﻿using System;
 namespace JENPY.Request
 {
-    public class BDESHandler : RequestHandler
+    public class BADDHandler : RequestHandler
     {
         public JenpyObject Handle(JenpyObject req)
         {
