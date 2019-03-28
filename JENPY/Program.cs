@@ -11,13 +11,13 @@ namespace JENPY
     {
         public const int port = 5555;
 
-        //static void Main(string[] args)
-        //{
-        //    IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-        //    IPAddress ipAddress = ipHostInfo.AddressList[0];
+        static void Main(string[] args)
+        {
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
 
-        //    Console.WriteLine("Launching Multi-Threaded TCP JENPY Server {0}", ipAddress);
-        //    TcpServer server = new TcpServer(port);
-        //}
+            Console.WriteLine("Launching Multi-Threaded TCP JENPY Server {0}", ipAddress);
+            TcpServer server = new TcpServer(port);
+        }
     }
 }

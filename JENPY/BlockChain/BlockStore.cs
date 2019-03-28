@@ -7,7 +7,7 @@ namespace JENPY.BlockChain
     {
         public static IList<Block> BlockChain { get; set; }
 
-        public BlockStore()
+        static BlockStore()
         {
             BlockChain = new List<Block>();
             //TODO think of a better way to stroe the genesis block
