@@ -16,7 +16,10 @@ namespace JENPY.Utils
             handlers.Add("EXIT", new EXITHandler());
             handlers.Add("GETV", new GETVHandler());
             handlers.Add("PUTV", new PUTVHandler());
+            handlers.Add("BADD", new BADDHandler());
+
         }
+
 
         public void handleRequest(StreamReader sReader, StreamWriter sWriter)
         {
