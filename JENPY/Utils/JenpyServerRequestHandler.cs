@@ -17,7 +17,7 @@ namespace JENPY.Utils
             handlers.Add("GETV", new GETVHandler());
             handlers.Add("PUTV", new PUTVHandler());
             handlers.Add("BADD", new BADDHandler());
-
+            handlers.Add("BDES", new BDESHandler());
         }
 
 

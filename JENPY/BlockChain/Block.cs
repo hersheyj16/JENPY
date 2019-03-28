@@ -41,24 +41,5 @@ namespace JENPY.BlockChain
                 return builder.ToString();
             }
         }
-
-        public static void Main(string[] args)
-        {
-            BlockStore bs = new BlockStore();
-
-            //TODO these adding the new block to the chain needs to handled by BADD
-            Block b = new Block("b");
-            var ans = b.Hash;
-            Console.WriteLine(ans);
-            BlockStore.BlockChain.Add(b);
-            Console.WriteLine(BlockStore.BlockChain.Count);
-
-            Block c = new Block("c");
-            var ans2 = c.Hash;
-            Console.WriteLine(ans2);
-            BlockStore.BlockChain.Add(c);
-            Console.WriteLine(BlockStore.BlockChain.Count);
-
-        }
     }
 }
