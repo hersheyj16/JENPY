@@ -15,11 +15,7 @@ nc localhost <port> VERB | key:value| key:value | .
 ### Milestone 5 [MEH]
 - Deploy to cloud
 
-### Milestone 6 []
-BACKUP
-- Create a background worker that periodically backs up in memory key values to disc
-
-### Milestone 7 []
+### Milestone 7 [N/A]
 - Create a RSTR verb to restore from the disk
 
 ### Milestone 8
@@ -38,6 +34,9 @@ BACKUP
 
 ### Milestone 4 [DONE]
 - Implement PUT
+
+### Milestone 6 [DONE]
+- Create a background worker that periodically backs up in memory key values to disc
 
 
 ### Resources:
