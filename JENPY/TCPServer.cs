@@ -17,14 +17,30 @@ namespace JENPY
         private Boolean _isRunning;
         private static JenpyServerRequestHandler handler = new JenpyServerRequestHandler();
 
-        public TcpServer(int port)
+
+        public TcpServer(int port, List<string> peers)
         {
             _server = new TcpListener(IPAddress.Any, port);
             _server.Start();
 
             _isRunning = true;
+            LoopPeers(peers);
 
             LoopClients();
+
+        }
+
+        private void LoopPeers(List<string> peers)
+        {
+            if (peers.Count == 0) {
+                return;
+            }
+
+            // for simplicity's sake, let's just p2p with the first guy.
+            string p1 = peers[0];
+            string[] Info = p1.Split(':');
+
+            Console.WriteLine("my peer is {0}:{1}", Info[0], Info[1]);
 
         }
 

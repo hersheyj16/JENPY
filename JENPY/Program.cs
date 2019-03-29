@@ -10,7 +10,7 @@ namespace JENPY
 {
     class Program
     {
-        public static List<string> peers;
+
         // For peers
 
         static void Main(string[] args)
@@ -23,22 +23,21 @@ namespace JENPY
 
             //TODO - maybe invest in a commandline parser:
             //CommandLineParser
-            if (args.Length == 1)
+            if (args.Length > 0)
             {
                 port = Int32.Parse(args[0]);
                 Console.WriteLine("port is {0}", port);
             }
 
-            if (args.Length == 2)
+            List<string> peers = new List<string>();
+            if (args.Length > 1)
             {
                 string fileName = args[1];
                 peers = getPeers(fileName);
             }
 
-
-
-            Console.WriteLine("Launching Multi-Threaded TCP JENPY Server {0} port {1}", ipAddress, port);
-            TcpServer server = new TcpServer(port);
+            Console.WriteLine("Launching Multi-Threaded TCP JENPY Server {0} on port {1}", ipAddress, port);
+            TcpServer server = new TcpServer(port, peers);
 
             foreach (string ip in peers)
             {
