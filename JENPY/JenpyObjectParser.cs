@@ -45,7 +45,7 @@ namespace JENPY
             {
                 Console.WriteLine("exception occured while parsing {0}", e.Message);
                 Console.WriteLine(e.StackTrace);
-                throw new JenpyMalformException(e.Message);
+                throw new JenpyException(e.Message);
             }
         }
 

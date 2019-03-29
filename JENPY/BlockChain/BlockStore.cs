@@ -11,14 +11,10 @@ namespace JENPY.BlockChain
         {
             BlockChain = new List<Block>();
             //TODO think of a better way to stroe the genesis block
-            Block GenesisBlock = new Block();
-            GenesisBlock.Data = "none";
-            GenesisBlock.Hash = "none";
-            GenesisBlock.PrevHash = "none";
+            Block GenesisBlock = new Block("genesis");
 
             long Time = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
-            GenesisBlock.Timestamp = Time;
             BlockChain.Add(GenesisBlock);
         }
     }

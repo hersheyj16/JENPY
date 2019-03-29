@@ -86,9 +86,9 @@ namespace JENPY
             {
                 handler.handleRequest(sReader, sWriter);
             }
-            catch (JenpyMalformException e)
+            catch (JenpyException e)
             {
-                sWriter.WriteLine("An JENPY malformed exception occured {0}", e.Message);
+                sWriter.WriteLine("An JENPY exception occured {0}", e.Message);
                 sWriter.Flush();
             }
             //catch (ObjectDisposedException e)

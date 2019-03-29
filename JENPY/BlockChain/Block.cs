@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using JENPY.Utils;
 
 namespace JENPY.BlockChain
 {
@@ -18,28 +20,27 @@ namespace JENPY.BlockChain
         {
             this.Data = Data;
             int BlockStoreChainLastIdx = BlockStore.BlockChain.Count - 1;
-            this.PrevHash = BlockStore.BlockChain[BlockStoreChainLastIdx].Hash;
+            if (BlockStoreChainLastIdx >= 0)
+            {
+                this.PrevHash = BlockStore.BlockChain[BlockStoreChainLastIdx].Hash;
+            }
+            else {
+                this.PrevHash = "genesis-no-prev-hash";
+            }
 
-            long Time = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            this.Timestamp = Time;
-
-            String ComputedHashInput = Data + PrevHash + Time;
-            string ComputedHash = ComputedHashForString(ComputedHashInput);
-            this.Hash = ComputedHash;
-
+            this.Timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            this.Hash = JenpyBlockUtils.ComputedHash(this);
         }
 
-        private string ComputedHashForString(string computedHashInput)
+
+        public override string ToString()
         {
-            using (SHA256 sha256Hash = SHA256.Create()) {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(computedHashInput));
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
+            Type objType = this.GetType();
+            PropertyInfo[] propertyInfoList = objType.GetProperties();
+            StringBuilder result = new StringBuilder();
+            foreach (PropertyInfo propertyInfo in propertyInfoList)
+                result.AppendFormat("{0}={1} ", propertyInfo.Name, propertyInfo.GetValue(this));
+            return result.ToString();
         }
     }
 }
