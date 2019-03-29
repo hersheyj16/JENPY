@@ -16,8 +16,12 @@ namespace JENPY.Utils
             handlers.Add("EXIT", new EXITHandler());
             handlers.Add("GETV", new GETVHandler());
             handlers.Add("PUTV", new PUTVHandler());
+
+            //Block chain features
             handlers.Add("BADD", new BADDHandler());
             handlers.Add("BDES", new BDESHandler());
+            handlers.Add("BVER", new BVERHandler());
+
         }
 
 
