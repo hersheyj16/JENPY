@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -9,15 +10,55 @@ namespace JENPY
 {
     class Program
     {
-        public const int port = 5555;
+        public static List<string> peers;
+        // For peers
 
         static void Main(string[] args)
         {
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = ipHostInfo.AddressList[0];
 
-            Console.WriteLine("Launching Multi-Threaded TCP JENPY Server {0}", ipAddress);
+            int port = 5555;
+            //dotnet run 3333 filename
+
+            //TODO - maybe invest in a commandline parser:
+            //CommandLineParser
+            if (args.Length == 1)
+            {
+                port = Int32.Parse(args[0]);
+                Console.WriteLine("port is {0}", port);
+            }
+
+            if (args.Length == 2)
+            {
+                string fileName = args[1];
+                peers = getPeers(fileName);
+            }
+
+
+
+            Console.WriteLine("Launching Multi-Threaded TCP JENPY Server {0} port {1}", ipAddress, port);
             TcpServer server = new TcpServer(port);
+
+            foreach (string ip in peers)
+            {
+                Console.WriteLine("peers found: {0}", ip);
+            }
+        }
+
+        private static List<string> getPeers(string fileName)
+        {
+            List<string> PeersData = new List<string>();
+            string line;
+            using (var fileStream = new System.IO.StreamReader(fileName))
+            {
+                while ((line = fileStream.ReadLine()) != null)
+                {
+                    Console.WriteLine(line);
+                    PeersData.Add(line);
+                }
+            }
+            return PeersData;
         }
     }
 }
