@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using JENPY.Exceptions;
@@ -17,6 +19,7 @@ namespace JENPY
         private Boolean _isRunning;
         private static JenpyServerRequestHandler handler = new JenpyServerRequestHandler();
 
+        public List<TcpClient> peersList { get; set; }
 
         public TcpServer(int port, List<string> peers)
         {
@@ -24,6 +27,8 @@ namespace JENPY
             _server.Start();
 
             _isRunning = true;
+
+            this.peersList = new List<TcpClient>();
             LoopPeers(peers);
 
             LoopClients();
@@ -32,7 +37,8 @@ namespace JENPY
 
         private void LoopPeers(List<string> peers)
         {
-            if (peers.Count == 0) {
+            if (peers.Count == 0)
+            {
                 return;
             }
 
@@ -40,8 +46,67 @@ namespace JENPY
             string p1 = peers[0];
             string[] Info = p1.Split(':');
 
-            Console.WriteLine("my peer is {0}:{1}", Info[0], Info[1]);
+            string ip = Info[0];
+            int port = Int32.Parse(Info[1]);
+            Console.WriteLine("my peer is {0}:{1}", ip, port);
+            TcpClient PeerClient = new TcpClient();
 
+
+            // just wait a little for the peer to come online ...
+            while (!PeerClient.Connected)
+            {
+                try
+                {
+                    PeerClient.Connect(ip, port);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Thread.Sleep(500);
+                }
+            }
+
+            this.peersList.Add(PeerClient);
+
+            StreamWriter cWriter = new StreamWriter(PeerClient.GetStream(), Encoding.ASCII);
+            StreamReader cReader = new StreamReader(PeerClient.GetStream(), Encoding.ASCII);
+
+            bool connectedToPeer = true;
+            while (connectedToPeer)
+            {
+                Console.WriteLine("First P2P introduction ");
+
+                cWriter.WriteLine("GETV | hersheys: .");
+                cWriter.Flush();
+
+
+                string sDataIncomming = cReader.ReadLine();
+                Console.WriteLine("received: {0}", sDataIncomming);
+                while (!string.IsNullOrEmpty(sDataIncomming))
+                {
+                    sDataIncomming = cReader.ReadLine();
+                    Console.WriteLine("received: {0}", sDataIncomming);
+                }
+
+                connectedToPeer = false;
+            }
+            cReader.Close();
+            cWriter.Close();
+
+            Console.WriteLine("End of P2P Initiation");
+        }
+        public IEnumerable<string> ReadLines(Func<Stream> streamProvider,
+                                     Encoding encoding)
+        {
+            using (var stream = streamProvider())
+            using (var reader = new StreamReader(stream, encoding))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    yield return line;
+                }
+            }
         }
 
         public void LoopClients()
@@ -108,13 +173,10 @@ namespace JENPY
                 sWriter.WriteLine("An JENPY exception occured {0}", e.Message);
                 sWriter.Flush();
             }
-            //catch (ObjectDisposedException e)
-            //{
-            //    Console.WriteLine("An client's stream closed with exception message {0}, effectively closing resources", e.Message);
-
-            //}
         }
 
     }
+
+
 
 }
