@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Sockets;
+using System.Text;
 using JENPY.Storage;
 using JENPY.Utils;
 
@@ -20,8 +23,29 @@ namespace JENPY.Request
                 }
                 else
                 {
+                    // TODO: make this async...
+                    // Also write to peer...
+                    // TODO: conflict resolution for multiple read / write transactions
+                    foreach (TcpClient peer in TcpServer.peersList)
+                    {
+                        StreamWriter sWriter = new StreamWriter(peer.GetStream(), Encoding.ASCII);
+                        StreamReader sReader = new StreamReader(peer.GetStream(), Encoding.ASCII);
+
+                        var input = JenpyObjectParser.SerializeToString(req);
+                        Console.WriteLine("Jenpy request to pass to peer - serialized to {0}", input);
+                        sWriter.Write(input);
+                        sWriter.Flush();
+
+                        string output = sReader.ReadLine();
+                        while (!string.IsNullOrEmpty(output))
+                        {
+                            Console.WriteLine("peer responded {0}", output);
+                            output = sReader.ReadLine();
+                        }
+                    }
+                    // Peer ended
+
                     DataStore.DataValues.Add(entry.Key, entry.Value);
-                    //TODO... design this better as background task maybe on the dataStore that periodically goes around and make backups on disk
                     writeToDisk(entry);
                 }
                 data.Add(entry.Key, value);

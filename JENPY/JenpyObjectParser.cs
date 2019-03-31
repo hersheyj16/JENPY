@@ -49,7 +49,7 @@ namespace JENPY
             }
         }
 
-        internal static string SerializeToString(JenpyObject res)
+        public static string SerializeToString(JenpyObject res)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(res.Verb);
@@ -71,6 +71,8 @@ namespace JENPY
             string bar = " | ";
             sb.Remove(sb.Length - bar.Length, bar.Length);
             sb.Append(" .");
+            sb.Append('\n');
+
             return sb.ToString();
         }
 

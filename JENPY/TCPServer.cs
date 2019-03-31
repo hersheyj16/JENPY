@@ -19,7 +19,8 @@ namespace JENPY
         private Boolean _isRunning;
         private static JenpyServerRequestHandler handler = new JenpyServerRequestHandler();
 
-        public List<TcpClient> peersList { get; set; }
+        //TODO : not sure if this is the right place for it
+        public static List<TcpClient> peersList = new List<TcpClient>();
 
         public TcpServer(int port, List<string> peers)
         {
@@ -28,11 +29,9 @@ namespace JENPY
 
             _isRunning = true;
 
-            this.peersList = new List<TcpClient>();
             LoopPeers(peers);
 
             LoopClients();
-
         }
 
         private void LoopPeers(List<string> peers)
@@ -51,7 +50,6 @@ namespace JENPY
             Console.WriteLine("my peer is {0}:{1}", ip, port);
             TcpClient PeerClient = new TcpClient();
 
-
             // just wait a little for the peer to come online ...
             while (!PeerClient.Connected)
             {
@@ -66,7 +64,7 @@ namespace JENPY
                 }
             }
 
-            this.peersList.Add(PeerClient);
+            peersList.Add(PeerClient);
 
             StreamWriter cWriter = new StreamWriter(PeerClient.GetStream(), Encoding.ASCII);
             StreamReader cReader = new StreamReader(PeerClient.GetStream(), Encoding.ASCII);
@@ -81,18 +79,15 @@ namespace JENPY
 
 
                 string sDataIncomming = cReader.ReadLine();
-                Console.WriteLine("received: {0}", sDataIncomming);
                 while (!string.IsNullOrEmpty(sDataIncomming))
                 {
-                    sDataIncomming = cReader.ReadLine();
                     Console.WriteLine("received: {0}", sDataIncomming);
+                    sDataIncomming = cReader.ReadLine();
                 }
-
+                Console.WriteLine("did I reach here? {0}", sDataIncomming);
                 connectedToPeer = false;
             }
-            cReader.Close();
-            cWriter.Close();
-
+    
             Console.WriteLine("End of P2P Initiation");
         }
         public IEnumerable<string> ReadLines(Func<Stream> streamProvider,
@@ -159,7 +154,6 @@ namespace JENPY
                 //sWriter.Close();
                 //sReader.Close();
             }
-
         }
 
         private void runClientConnection(StreamReader sReader, StreamWriter sWriter)
@@ -174,9 +168,5 @@ namespace JENPY
                 sWriter.Flush();
             }
         }
-
     }
-
-
-
 }
