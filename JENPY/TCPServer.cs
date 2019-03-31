@@ -18,12 +18,17 @@ namespace JENPY
         private TcpListener _server;
         private Boolean _isRunning;
         private static JenpyServerRequestHandler handler = new JenpyServerRequestHandler();
-
+        private static IPHostEntry ipHostInfo;
+        private static IPAddress ipAddress;
         //TODO : not sure if this is the right place for it
         public static List<TcpClient> peersList = new List<TcpClient>();
 
         public TcpServer(int port, List<string> peers)
         {
+            //INIT
+            ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            ipAddress = ipHostInfo.AddressList[0];
+
             _server = new TcpListener(IPAddress.Any, port);
             _server.Start();
 
@@ -74,7 +79,8 @@ namespace JENPY
             {
                 Console.WriteLine("First P2P introduction ");
 
-                cWriter.WriteLine("GETV | hersheys: .");
+                string.Format("REGP | {0}:{1} .", ipAddress, port);
+                cWriter.WriteLine("REGP | hersheys: .");
                 cWriter.Flush();
 
 
@@ -84,10 +90,9 @@ namespace JENPY
                     Console.WriteLine("received: {0}", sDataIncomming);
                     sDataIncomming = cReader.ReadLine();
                 }
-                Console.WriteLine("did I reach here? {0}", sDataIncomming);
                 connectedToPeer = false;
             }
-    
+
             Console.WriteLine("End of P2P Initiation");
         }
         public IEnumerable<string> ReadLines(Func<Stream> streamProvider,
@@ -129,8 +134,7 @@ namespace JENPY
             // you could use the NetworkStream to read and write, 
             // but there is no forcing flush, even when requested
 
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = ipHostInfo.AddressList[0];
+
 
             sWriter.WriteLine("welcome to JENPY server {0}", ipAddress);
             sWriter.Flush();

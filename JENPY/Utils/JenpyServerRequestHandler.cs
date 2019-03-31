@@ -22,6 +22,9 @@ namespace JENPY.Utils
             handlers.Add("BDES", new BDESHandler());
             handlers.Add("BVER", new BVERHandler());
 
+            //P2P features
+            handlers.Add("REGP", new REGPHandler());
+
         }
 
 
