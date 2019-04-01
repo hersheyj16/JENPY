@@ -29,24 +29,25 @@ namespace JENPY.Request
                     foreach (TcpClient peer in TcpServer.peersList)
                     {
                         StreamWriter sWriter = new StreamWriter(peer.GetStream(), Encoding.ASCII);
-                        StreamReader sReader = new StreamReader(peer.GetStream(), Encoding.ASCII);
+                        //StreamReader sReader = new StreamReader(peer.GetStream(), Encoding.ASCII);
 
                         var input = JenpyObjectParser.SerializeToString(req);
                         Console.WriteLine("Jenpy request to pass to peer - serialized to {0}", input);
                         sWriter.Write(input);
                         sWriter.Flush();
-
-                        string output = sReader.ReadLine();
-                        while (!string.IsNullOrEmpty(output))
-                        {
-                            Console.WriteLine("peer responded {0}", output);
-                            output = sReader.ReadLine();
-                        }
+                               
                     }
                     // Peer ended
-
-                    DataStore.DataValues.Add(entry.Key, entry.Value);
-                    writeToDisk(entry);
+                    try
+                    {
+                        DataStore.DataValues.Add(entry.Key, entry.Value);
+                        writeToDisk(entry);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Issues with PUT");
+                        Console.WriteLine(e.StackTrace);
+                    }
                 }
                 data.Add(entry.Key, value);
             }

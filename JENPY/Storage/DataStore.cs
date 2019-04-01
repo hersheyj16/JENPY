@@ -58,6 +58,7 @@ namespace JENPY.Storage
 
         private static void Restore(IDictionary<string, string> dataValues, string backupFileName)
         {
+            Console.WriteLine("running backup on file {0}", backupFileName);
             string[] lines = System.IO.File.ReadAllLines(backupFileName);
             foreach (String keyVal in lines)
             {

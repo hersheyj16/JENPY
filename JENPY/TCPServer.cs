@@ -79,8 +79,9 @@ namespace JENPY
             {
                 Console.WriteLine("First P2P introduction ");
 
-                string.Format("REGP | {0}:{1} .", ipAddress, port);
-                cWriter.WriteLine("REGP | hersheys: .");
+                String peerMessage = string.Format("REGP |{0}:{1} .", ipAddress, port);
+                Console.WriteLine("debug {0}", peerMessage);
+                cWriter.WriteLine(peerMessage);
                 cWriter.Flush();
 
 
@@ -133,7 +134,6 @@ namespace JENPY
             StreamReader sReader = new StreamReader(client.GetStream(), Encoding.ASCII);
             // you could use the NetworkStream to read and write, 
             // but there is no forcing flush, even when requested
-
 
 
             sWriter.WriteLine("welcome to JENPY server {0}", ipAddress);

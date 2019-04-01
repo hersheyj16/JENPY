@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using JENPY.Exceptions;
 
 namespace JENPY
@@ -16,18 +17,25 @@ namespace JENPY
         {
             try
             {
+
                 Console.WriteLine("Received " + input);
 
+                //Assume all verbs are 4 letters.
+                string verb = input.Substring(0, VerbLength);
+                //TODO : delete
+            
+
                 //First look for the period.
-                int EndIndex = input.IndexOf('.');
+                //int EndIndex = input.IndexOf('.');
+                Regex EndDot = new Regex(".", RegexOptions.RightToLeft);
+                Match theMatch = EndDot.Match(input);
+                int EndIndex = theMatch.Index;
 
                 if (EndIndex < 0)
                 {
                     throw new Exception("Wrong format, expecting a period");
                 }
 
-                //Assume all verbs are 4 letters.
-                string verb = input.Substring(0, VerbLength);
 
                 //TODO see if we can add a logging library
                 Console.WriteLine("Debug - Received verb {0}", verb);

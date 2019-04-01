@@ -34,6 +34,7 @@ namespace JENPY.Utils
             String sData = sReader.ReadLine();
             JenpyObject req = JenpyObjectParser.toJenpy(sData);
 
+
             RequestHandler hander = determineHandler(req);
             JenpyObject res = hander.Handle(req);
 
@@ -53,8 +54,7 @@ namespace JENPY.Utils
                 Console.WriteLine("key {0}, val {1}", entry.Key, entry.Value);
             }
 
-            String JenpyData = "MOCK Response Meaningfull things here";
-            JenpyData = JenpyObjectParser.SerializeToString(res);
+            String JenpyData = JenpyObjectParser.SerializeToString(res);
 
             sWriter.WriteLine(JenpyData);
             sWriter.Flush();
